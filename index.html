@@ -549,27 +549,30 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;}
         b.el.style.opacity='0';
       }
     });
-    // After bubbles fade, fade out Ellipse 23 (the bubble backdrop of key-bubble)
+    // Step 1 (600ms): after other bubbles have faded, start fading Ellipse 23
     setTimeout(function(){
       var e23=$id('Ellipse 23');
-      if(e23){e23.style.transition='opacity 0.6s ease';e23.style.opacity='0';}
-      // Sparkle the key
-      var keyEl=$id('key');
-      if(keyEl)keyEl.classList.add('sparkle');
-      // After sparkle completes, mouse falls out
+      var FADE_DUR=700;
+      if(e23){e23.style.transition='opacity '+FADE_DUR+'ms ease';e23.style.opacity='0';}
+
+      // Step 2: after Ellipse 23 finishes fading, sparkle the key
       setTimeout(function(){
-        if(keyEl)keyEl.classList.remove('sparkle');
-        hide(mouseWrap);
-        mouseWrap.classList.remove('dropping');
-        // Re-show mouse at bottom then fall out
-        show(mouseWrap);
-        mouseWrap.classList.add('falling');
+        var keyEl=$id('key');
+        if(keyEl)keyEl.classList.add('sparkle');
+
+        // Step 3: after sparkle finishes (4 iterations × 500ms = 2000ms), mouse falls
         setTimeout(function(){
-          mouseWrap.classList.remove('falling');
-          tvActive=false;
-          // TODO: transition to CPU stage (future prompt)
-        },1350);
-      },2200);
+          if(keyEl)keyEl.classList.remove('sparkle');
+          mouseWrap.classList.remove('dropping');
+          show(mouseWrap);
+          mouseWrap.classList.add('falling');
+          setTimeout(function(){
+            mouseWrap.classList.remove('falling');
+            tvActive=false;
+            // TODO: transition to CPU stage (future prompt)
+          },1350);
+        },2000);
+      },FADE_DUR);
     },600);
   }
 

@@ -564,10 +564,10 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;}
         setTimeout(function(){
           if(keyEl)keyEl.classList.remove('sparkle');
           mouseWrap.classList.remove('dropping');
-          show(mouseWrap);
           mouseWrap.classList.add('falling');
           setTimeout(function(){
             mouseWrap.classList.remove('falling');
+            hide(mouseWrap);
             tvActive=false;
             // TODO: transition to CPU stage (future prompt)
           },1350);

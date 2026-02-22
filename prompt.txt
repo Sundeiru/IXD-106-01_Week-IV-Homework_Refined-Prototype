@@ -1,5 +1,5 @@
 Provided Files:
-• Access the ids in the svgs to successfully make interaction. Ids in this prompt will be referred to with {} around the id names
+• Access the ids in all of the svgs to successfully make interaction. Ids in this prompt will be referred to with {} around the id names
 
 Interaction:
 The interaction begins with {stage-phone}.

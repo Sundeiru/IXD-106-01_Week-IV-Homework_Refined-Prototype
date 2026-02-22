@@ -342,7 +342,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;}
   function goDone(){
     state='DONE';
     hide(opener); hide(phoneImage); hide(password); hide(emergCall);
-    show(defPhoneBg); show(cpuSvg);
+    show(defPhoneBg);
     mouseWrap.classList.add('falling');
   }
 
@@ -452,18 +452,40 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;}
 
   function hitId(){
     var p=screenPos();
+    var px=p.sx, py=p.sy;
+
+    // Check if an element (and all its ancestors) is visible
+    function isVisible(el){
+      var node=el;
+      while(node&&node!==document.body){
+        if(node.classList&&node.classList.contains('hidden'))return false;
+        node=node.parentElement;
+      }
+      return true;
+    }
+    // Bounding-rect hit test — works reliably for SVG buttons/shapes
+    function inRect(el){
+      if(!el||!isVisible(el))return false;
+      var r=el.getBoundingClientRect();
+      return px>=r.left&&px<=r.right&&py>=r.top&&py<=r.bottom;
+    }
+
+    // Check buttons first via bounding rect (more reliable than elementFromPoint for SVG)
+    if(inRect(backspaceBtn))return 'backspace-button';
+    if(inRect(callBtn))     return 'call-button';
+    if(inRect(emergBtn))    return 'emergency-button';
+    if(inRect(backBtn))     return 'back-button';
+
+    // Check numpad circles via elementFromPoint + walk-up
     mouseWrap.style.display='none';
-    var el=document.elementFromPoint(p.sx,p.sy);
+    var el=document.elementFromPoint(px,py);
     mouseWrap.style.display='';
     if(!el)return null;
     var node=el;
     for(var i=0;i<10;i++){
       if(!node)break;
       var id=node.id;
-      if(id in PWD_MAP||id in CALL_MAP||
-         id in DPATH_PWD||id in DPATH_CALL||
-         id in BACKSPACE_IDS||id in EMERG_BTN_IDS||
-         id in CALL_BTN_IDS||id in BACK_BTN_IDS)return id;
+      if(id in PWD_MAP||id in CALL_MAP||id in DPATH_PWD||id in DPATH_CALL)return id;
       node=node.parentElement;
     }
     return null;
@@ -474,17 +496,17 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;}
     var id=hitId();
     if(!id)return;
     if(state==='PASSWORD'){
-      if(id in PWD_MAP){pwdDigitPress(PWD_MAP[id]);}
+      if(id==='backspace-button'){pwdBackspace();}
+      else if(id==='emergency-button'){goToEmergency();}
+      else if(id in PWD_MAP){pwdDigitPress(PWD_MAP[id]);}
       else if(id in DPATH_PWD){pwdDigitPress(PWD_MAP[DPATH_PWD[id]]);}
-      else if(id in BACKSPACE_IDS){pwdBackspace();}
-      else if(id in EMERG_BTN_IDS){goToEmergency();}
     } else if(state==='EMERGENCY'){
       if(callActive)return;
-      if(id in CALL_MAP){callDigitPress(CALL_MAP[id]);}
+      if(id==='backspace-button'){callBackspacePress();}
+      else if(id==='back-button'){hide(emergCall);goToPassword();}
+      else if(id==='call-button'){doCall();}
+      else if(id in CALL_MAP){callDigitPress(CALL_MAP[id]);}
       else if(id in DPATH_CALL){callDigitPress(CALL_MAP[DPATH_CALL[id]]);}
-      else if(id in BACKSPACE_IDS){callBackspacePress();}
-      else if(id in BACK_BTN_IDS){hide(emergCall);goToPassword();}
-      else if(id in CALL_BTN_IDS){doCall();}
     }
   }
 

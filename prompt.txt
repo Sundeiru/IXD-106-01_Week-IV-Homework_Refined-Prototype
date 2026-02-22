@@ -1,0 +1,43 @@
+Provided Files:
+• Access the ids in the svgs to successfully make interaction. Ids in this prompt will be referred to with {} around the id names
+
+Interaction:
+The interaction begins with {stage-phone}.
+• {opener}, {default-phone-bg}, and {phone-image} are visible while the other assets are hidden. If the user clicks the up, down, left, right, or k keys on their keyboard, {opener} gets hidden and {password} becomes visible. 
+• {password} is a model of a phone lock screen, and all its elements must behave like a lock screen.
+• {mouse} appears in the center of the screen, and the user can control it with the up, down, left, and right keys. If the user clicks the k key on their keyboard, then that registers as click output. The {mouse} is limited to the boundaries of {default-phone-bg}; it cannot be moved outside of its dimensions.
+
+• In {password}, the {number-pad-pwd} and the {backspace-button} are interactive - if the user clicks on any of the buttons/circles in {number-pad-pwd}, then the circles in {password-input} are filled with a light gray sequentially. When four numbers are clicked, if they were not the sequence of 4102, then {password-input} shakes and its circles are reset to blank.
+• If the user clicks on {emergency-button}, {password} is hidden and {emergency-call} is visible.
+• {speaker} is hidden by default. If the user clicks on {back-button}, {emergency-call} is hidden and {password} is hidden.
+• {number-pad-call} has the same interactive behavior as {number-pad-pwd}, except it fills the {number-dial}. {number-dial} has “911” by default, but if the user clicks {backspace-button} then it acts as a delete button by deleting the numeral inputs in {number-dial}. 
+• If the user inputs any number that is not “911” and presses the {call-button}, then {call-button} shakes for one second. 
+• If {call-button} is clicked when {number-dial} is “911”, then {default-dpbg} is hidden and {call-dpbg} is visible, and {Emergency call} and {number-dial} is hidden and {speaker} is visible. Audio plays - the audio generated has a computer-static voice that says: 
+
+"4102”
+
+After the audio plays, {speaker} fades away, and {call-dpbg} gradually changes to {default-dpbg}, and {Emergency call} and {number-dial} fade into visibility.
+
+• In {password}, if the user enters “4102”, then all the assets except {mouse}, {default-phone-bg} and {cpu-image} is hidden. {mouse} falls downwards until it falls out of bounds of the entire screen.
+
+The interaction phases to {stage-tv}. The {mouse} falls from the top of the screen to the center of the screen. Once it reaches the center, its movements are limited to the boundaries of {default-tv-bg}.
+
+Setup for {stage-tv}:
+All assets in {bubbles} float around at random at a moderate speed, with its boundaries limited to {default-tb-bg}.
+
+• If the user clicks {key-bubble} three times within one second, {key-bubble} stops moving and then all the other bubbles/ellipses disappear. When {key-bubble} is isolated, {Ellipse 23} fades away. The {key} has a sparkle effect around it, and then the {mouse} falls out of bounds of the entire screen.
+• The interaction phases to {stage-cpu}. Everything is hidden in {cpu-interaction} except for {out-file} and {cpu-image}. The {mouse} falls to the location of {spawn-two}. The movement of {mouse} is limited to the boundaries of {cpu-interaction}.
+• If the user clicks twice on {file} within one second, {out-file} is hidden and {in-file} is visible.
+• If the user clicks twice on {txt-1}, {txt-2}, {txt-3}, and {txt-4}, then in-file is hidden, and {txt-no} is visible. If the user clicks on {back-button-1}, then {txt-no} is hidden and {in-file} is visible.
+
+There are two pathways from here.
+
+1)
+If the user clicks twice on {important-txt}, then {in-file} is hidden and {txt-yes} is visible. {back-button-2} has the same interactive elements as {back-button-1} except it makes {txt-yes} hidden.
+
+If the user clicks on {2}, then {txt-yes} is hidden and {txt-victory} is visible. If the user clicks on {key-flip}, then {key-flip} speeds right on the x-axis. As it touches {lock}, it disappears at the point of contact with {lock}. After {key-flip} fully disappears, {stage-cpu} fades from view and {lived} fades into visibility. One second after {lived} fades into full view, the {restart-button} becomes functional. If the user clicks on {restart-button}, then the entire interaction is reset.
+
+2)
+If the user clicks on {pdf-file}, then the entire screen starts glitching. {mouse} can no longer be moved. The glitch effects start gradually, then it increases until it fills the entire screen. At that point, {stage-cpu} is hidden and {died} is visible. {restart-click} is hidden.
+
+If the user clicks where {restart-click} is located, then it resets the entire interaction.

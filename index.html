@@ -778,19 +778,19 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden;}
     var dxScreen=(lockR.left+lockR.width/2)-(kfR.left+kfR.width/2);
     var dxSVG=dxScreen/s;
 
-    kfEl.style.transition='transform 0.45s ease-in';
+    kfEl.style.transition='transform 1.6s ease-in';
     kfEl.style.transform='translateX('+dxSVG+'px)';
 
     // Contact: fade both out
     setTimeout(function(){
-      kfEl.style.transition='opacity 0.15s ease';
+      kfEl.style.transition='opacity 0.3s ease';
       kfEl.style.opacity='0';
-      lockEl.style.transition='opacity 0.15s ease';
+      lockEl.style.transition='opacity 0.3s ease';
       lockEl.style.opacity='0';
 
       // CPU fades out
       setTimeout(function(){
-        cpuSvg.style.transition='opacity 0.8s ease';
+        cpuSvg.style.transition='opacity 2s ease';
         cpuSvg.style.opacity='0';
 
         setTimeout(function(){
@@ -800,7 +800,7 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden;}
           // Lived fades in
           livedSvg.style.opacity='0';
           show(livedSvg);
-          livedSvg.style.transition='opacity 0.8s ease';
+          livedSvg.style.transition='opacity 2s ease';
           requestAnimationFrame(function(){livedSvg.style.opacity='1';});
 
           // 1 second after fully visible, enable restart
@@ -811,10 +811,10 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden;}
             hide(mouseWrap);
             mouseX=720;mouseY=512;placeMouse();
             show(mouseWrap);
-          },1800);
-        },850);
-      },200);
-    },450);
+          },3100);
+        },2100);
+      },300);
+    },1600);
   }
 
   // ── Glitch → Died ─────────────────────────────────────────────────────────

@@ -41,3 +41,32 @@ If the user clicks on {2}, then {txt-yes} is hidden and {txt-victory} is visible
 If the user clicks on {pdf-file}, then the entire screen starts glitching. {mouse} can no longer be moved. The glitch effects start gradually, then it increases until it fills the entire screen. At that point, {stage-cpu} is hidden and {died} is visible. {restart-click} is hidden.
 
 If the user clicks where {restart-click} is located, then it resets the entire interaction.
+
+
+Week V Update Prompt:
+• stage-phone.svg, stage-tv.svg, stage-cpu.svg, and died.svg were reuploaded to main. Fetch them from main, and the following changes are specified here:
+
+stage-phone.svg
+- The color of {emergency-button} was changed to red.
+- The stroke color of all the assets in {emergency-call} was changed to red. {back-button} and {backspace-button} were deleted.
+
+stage-tv.svg
+- There were more Ellipses added to {bubbles}.
+- {important-txt} was divided/duplicated into {important-txt-1} and {important-txt-2}.
+- {back-button-2} in {txt-yes} and {txt-no} was enlarged.
+- {2} was deleted.
+- The content of the text in {txt-yes} was appended. The stroke color of the text was changed to blue, and it was underlined.
+- More text blocks were added {txt-victory}.
+
+died.svg
+- {restart-click} was heavily edited.
+
+The interaction should change as thus:
+
+• In {stage-phone}, currently when the audio plays after the user prompts it through {call-button}, the screen returns to {emergency-call}. Change this so that after the user clicks {call-button} and the audio is played with the speaker interaction, the screen changes to {password} instead. Also, disable the interactive clicking of {number-pad-call} - the user cannot change or manipulate {number-dial}.
+
+• In {stage-tv}, {mouse} only has to click {key-bubble} once for the successive interactions to occur. For the additional Ellipses, have them behave the same as the original Ellipses.
+
+• {important-txt-2} is hidden by default. {important-txt-1} has the same behavior as the original {important-txt}. If the user triggers the ending of {txt-no}, right when the glitches start, {important-txt-2} fades into view so that the user can see it while the screen is glitching.
+
+• If {mouse} clicks on the {restart-click}, then the interaction restarts.

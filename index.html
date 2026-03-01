@@ -221,6 +221,11 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden;}
 <line id="Line 2" x1="167" y1="181.5" x2="233" y2="181.5" stroke="white" stroke-width="5"/>
 <line id="Line 3" x1="167" y1="170.5" x2="233" y2="170.5" stroke="white" stroke-width="5"/>
 </g>
+<g id="txt-2">
+<path id="Subtract_3" d="M253.778 366.932C255.841 368.995 257 371.793 257 374.711V462C257 468.075 252.075 473 246 473H159C152.925 473 148 468.075 148 462V333C148 326.925 152.925 322 159 322H204.289C207.207 322 210.005 323.159 212.068 325.222L253.778 366.932Z" fill="#D4D4D4"/>
+<path id="Intersect_3" d="M206 322C208.284 322.36 210.412 323.432 212.067 325.087L253.778 366.798C255.189 368.209 256.177 369.964 256.66 371.865H208C206.895 371.865 206 370.97 206 369.865V322Z" fill="#F0F0F0"/>
+<path id="TXT_3" d="M181.105 453H175.051V429.484H167.297V424.445H188.859V429.484H181.105V453ZM216.34 453H209.426L202.785 442.199L196.145 453H189.66L199.133 438.273L190.266 424.445H196.945L203.098 434.719L209.133 424.445H215.656L206.691 438.605L216.34 453ZM230.949 453H224.895V429.484H217.141V424.445H238.703V429.484H230.949V453Z" fill="white"/>
+</g>
 <g id="txt-3">
 <path id="Subtract_5" d="M388.778 151.932C390.841 153.995 392 156.793 392 159.711V247C392 253.075 387.075 258 381 258H294C287.925 258 283 253.075 283 247V118C283 111.925 287.925 107 294 107H339.289C342.207 107 345.005 108.159 347.068 110.222L388.778 151.932Z" fill="#D4D4D4"/>
 <path id="Intersect_5" d="M341 107C343.284 107.36 345.412 108.432 347.067 110.087L388.778 151.798C390.189 153.209 391.177 154.964 391.66 156.865H343C341.895 156.865 341 155.97 341 154.865V107Z" fill="#F0F0F0"/>
@@ -689,7 +694,7 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden;}
     BUBBLE_DEFS.forEach(function(def){var el=$id(def[0]);if(el){el.removeAttribute('transform');el.style.opacity='';el.style.transition='';}});
     var kbEl=$id('key-bubble');if(kbEl)kbEl.removeAttribute('transform');
     var e23=$id('Ellipse 23');if(e23){e23.style.opacity='';e23.style.transition='';}
-    var keyEl=$id('key');if(keyEl)keyEl.classList.remove('sparkle');
+    var keyEl=$id('key');if(keyEl){keyEl.classList.remove('sparkle');keyEl.style.opacity='0';}
     initBubbles();
     mouseX=(TV_L+TV_R)/2;mouseY=(TV_T+TV_B)/2;
     placeMouse();show(mouseWrap);
@@ -719,7 +724,7 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden;}
       if(e23){e23.style.transition='opacity '+FADE_DUR+'ms ease';e23.style.opacity='0';}
       setTimeout(function(){
         var keyEl=$id('key');
-        if(keyEl)keyEl.classList.add('sparkle');
+        if(keyEl){keyEl.style.opacity='1';keyEl.classList.add('sparkle');}
         setTimeout(function(){
           if(keyEl)keyEl.classList.remove('sparkle');
           mouseWrap.classList.remove('dropping');
@@ -836,7 +841,7 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden;}
   function startGlitch(){
     state='GLITCH';
     var imp2=$id('important-txt-2');
-    if(imp2){imp2.style.transition='opacity 1.5s ease';imp2.style.opacity='1';}
+    if(imp2){imp2.style.transition='opacity 1.5s ease';requestAnimationFrame(function(){imp2.style.opacity='1';});}
     hide(mouseWrap);
     var canvas=glitchCanvas;
     canvas.style.display='block';
@@ -892,7 +897,7 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden;}
     });
     var kbEl=$id('key-bubble');if(kbEl)kbEl.removeAttribute('transform');
     var e23=$id('Ellipse 23');if(e23){e23.style.opacity='';e23.style.transition='';}
-    var keyEl=$id('key');if(keyEl)keyEl.classList.remove('sparkle');
+    var keyEl=$id('key');if(keyEl){keyEl.classList.remove('sparkle');keyEl.style.opacity='';}
     var imp2=$id('important-txt-2');if(imp2){imp2.style.opacity='';imp2.style.transition='';}
     livedRestartReady=false;
     hide(tvSvg);hide(cpuSvg);hide(diedSvg);hide(livedSvg);
@@ -991,9 +996,13 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden;}
     if(inR(callBtn))     return 'call-button';
     if(inR(emergBtn))    return 'emergency-button';
     if(inR(backBtn))     return 'back-button';
-    // TV key-bubble
+    // TV key-bubble and regular bubbles
     if(state==='TV'){
       if(inR($id('key-bubble')))return 'key-bubble';
+      for(var bi=0;bi<bubbles.length;bi++){
+        var bbl=bubbles[bi];
+        if(bbl.el&&isVisible(bbl.el)&&inR(bbl.el))return bbl.el.id;
+      }
     }
     // CPU elements
     if(state==='CPU'){
@@ -1009,7 +1018,7 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden;}
       if(cpuSub==='TXT_NO'&&inR($id('back-button-1')))return 'back-button-1';
       if(cpuSub==='TXT_YES'){
         if(inR($id('back-button-2')))return 'back-button-2';
-        if(inR($id('txt-yes'))&&!inR($id('back-button-2'))) return 'btn-2';
+        if(inR($id('2'))) return 'btn-2';
       }
       if(cpuSub==='TXT_VICTORY'&&inR($id('key-flip')))return 'key-flip';
     }
@@ -1050,6 +1059,7 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden;}
       else if(id in DPATH_CALL)callDigitPress(CALL_MAP[DPATH_CALL[id]]);
     } else if(state==='TV'){
       if(id==='key-bubble')onKeyBubbleClick();
+      else if(id){var bel=$id(id);if(bel){bel.style.transition='opacity 0.6s ease';bel.style.opacity='0';bubbles=bubbles.filter(function(b){return b.el!==bel;});}}
     } else if(state==='CPU'){
       if(id)handleCpuClick(id);
     } else if(state==='DIED'){
